@@ -15,47 +15,10 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // DOWNLOAD PDF (tout sauf contact + boutons no-print)
-  const downloadCV = async () => {
-    const element = document.getElementById("site-content");
-
-    if (!element) return;
-
-  const canvas = await html2canvas(element, {
-  scale: 2,
-  useCORS: true,
-  backgroundColor: "#ffffff",
-  foreignObjectRendering: false,
-});
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const imgWidth = 210;
-    const pageHeight = 297;
-
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft > 0) {
-      position -= pageHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    pdf.save("CV_Fatou_Sylla.pdf");
-  };
-
   return (
     <main
       id="site-content"
-      className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gradient-to-br from-[#fff7f5] via-[#fff1e6] to-[#fef3ff] text-gray-900 font-sans"
-    >
+className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-gradient-to-br from-[#fff7f5] via-[#fff1e6] to-[#fef3ff] text-gray-900 font-sans"    >
       {/* BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute w-[600px] h-[600px] bg-pink-200 blur-[160px] opacity-40 -top-40 -left-40 rounded-full" />
@@ -120,12 +83,7 @@ export default function Home() {
             <p>📧 fasylla2003@gmail.com</p>
              <p>📞 77 877 33 60 </p>
             <p>🚗 Permis B</p>
-              <button
-                onClick={downloadCV}
-                className="no-print px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-orange-400 text-white hover:scale-105 transition"
-              >
-                Download CV
-              </button>
+             
             </div>
           </div>
 
@@ -273,7 +231,7 @@ export default function Home() {
             Send Message
           </a>
 
-          {/* FOOTER CONTACT AVEC LOGOS */}
+      
           <div className="w-full bg-white/70 backdrop-blur-xl border-t border-gray-200 mt-6">
             <div className="flex justify-center gap-12 py-4">
               <a
