@@ -15,6 +15,43 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+const downloadCV = async () => {
+  const input = document.getElementById("cv-template");
+
+  if (!input) return;
+
+  const canvas = await html2canvas(input, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const pdfWidth = 210;
+  const pdfHeight = 297;
+
+  const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  let position = 0;
+  let heightLeft = imgHeight;
+
+  pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+
+  heightLeft -= pdfHeight;
+
+  while (heightLeft > 0) {
+    position -= pdfHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+    heightLeft -= pdfHeight;
+  }
+
+  pdf.save("CV_Fatou_Bintou_SYLLA.pdf");
+};
+
   return (
     <main
       id="site-content"
@@ -83,7 +120,12 @@ className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg
             <p>📧 fasylla2003@gmail.com</p>
              <p>📞 77 877 33 60 </p>
             <p>🚗 Permis B</p>
-             
+              <button
+                onClick={downloadCV}
+                className="no-print px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-orange-400 text-white hover:scale-105 transition"
+              >
+                Download CV
+              </button>
             </div>
           </div>
 
@@ -129,7 +171,7 @@ className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg
         <div className="max-w-5xl w-full">
           <h2 className="text-3xl font-bold mb-10 text-center">Skills</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-4 gap-6">
             {[
               ["IA & Data",
                     `Python, Java, C, JavaScript/TypeScript, PHP 
@@ -141,6 +183,9 @@ className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg
               ["Développement Web",  `Frontend : HTML, CSS, JavaScript, React.js 
                     Backend : PHP/Laravel, API REST 
                     Bases de données : MySQL, PostgreSQL, MongoDB`],
+              ["MBA & Business", 
+                    `Analyse de marché, stratégie d’entreprise, gestion de projet (Agile/Scrum), leadership, communication professionnelle, prise de décision, business intelligence, digital transformation`],
+  
             ].map(([t, d]) => (
               <div
                 key={t}
@@ -184,13 +229,13 @@ className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg
         id="Formation"
         className="h-screen snap-start flex items-center justify-center px-10"
       >
-        <div className="max-w-3xl bg-white rounded-3xl shadow-xl p-15 space-y-5">
+        <div className="max-w-3xl bg-white rounded-3xl shadow-xl p-8 space-y-5">
           <h2 className="text-3xl font-bold mb-10">Formation</h2>
           <div className="bg-purple-50 hover:bg-purple-100 p-10 rounded-3xl border border-purple-200 space-y-4 text-black text-lg shadow-xl hover:shadow-lg transition-all transform hover:-translate-y-2">
             <p>2026-2028 - Master – Administration des Affaires (MBA) – Umef Swiss University</p>
             <p>2025-2027 - Master – Intelligence Artificielle & Big Data (IABD) – Ecole Supérieure Polytechnique(ESP)</p>
             <p>2024-2025 - Licence - Génie Logiciel et Systeme d'information (GLSI) – Ecole Supérieure Polytechnique(ESP)</p>
-            <p>2022-2024 - licence 2 - Diplôme Supérieur de Technologie – Ecole Supérieure Polytechnique (ESP)</p>
+            <p>2022-2024 - licence 2 - Diplôme Supérieur de Technologie (DST) – Ecole Supérieure Polytechnique (ESP)</p>
             <p>2021-2022 - Baccalauréat Série S2 - Lycée Seydina Limamoulaye de Guediawaye</p>
           </div>
         </div>
@@ -231,7 +276,7 @@ className="min-h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg
             Send Message
           </a>
 
-      
+          {/* FOOTER CONTACT AVEC LOGOS */}
           <div className="w-full bg-white/70 backdrop-blur-xl border-t border-gray-200 mt-6">
             <div className="flex justify-center gap-12 py-4">
               <a
