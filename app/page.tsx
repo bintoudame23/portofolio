@@ -16,7 +16,7 @@ const CV_PATH = "/CV_Fatou_Bintou_SYLLA.pdf";
 const CV_FILENAME = "CV_Fatou_Bintou_SYLLA.pdf";
 
 const EMAIL = "fasylla2003@gmail.com";
-const PHONE = "77 877 33 60";
+const PHONE = "+221 77 877 33 60";
 
 /* =========================================================
    NAVIGATION
